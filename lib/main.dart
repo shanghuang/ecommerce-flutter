@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'pages/login_page.dart'; // Add this import
 import 'pages/registration_page.dart';
@@ -11,6 +13,9 @@ import 'pages/checkout_page.dart';
 import 'pages/account/order_history_page.dart';
 import 'pages/account/account_product_page.dart';
 import 'pages/order_confirmation_page.dart';
+//import 'pages/provider_chat_page.dart';
+import 'pages/chat_list_page.dart';
+//import 'l10n/l10n.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +29,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [Locale('en'), Locale('zh'), Locale('ja')],
+
+      locale: Locale("zh"),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -53,6 +67,7 @@ class MyApp extends StatelessWidget {
         '/checkout': (context) => CheckoutPage(),
         '/order-history': (context) => OrderHistoryPage(),
         '/account-product': (context) => AccountProductsPage(),
+        '/provider/chat': (context) => ChatListPage(),
         '/products':
             (context) => ProductDetailPage(
               productId: ModalRoute.of(context)!.settings.arguments as String,
@@ -139,13 +154,51 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void logout() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context)
+    {
+      return
+        AlertDialog(
+          title: const Text('Logout ?'),
+          content: const SingleChildScrollView(
+            child: ListBody(children: <Widget>[Text('Logout ?')]),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                final token = prefs.getString('jwt_token');
+                final response = await http.post(
+                  Uri.parse('http://192.168.1.77:3000/api/auth/logout'),
+                  headers: {'Authorization': 'Bearer $token'},
+                );
+                if (response.statusCode == 200) {
+                  prefs.remove('jwt_token');
+                  prefs.remove('email');
+                  print('Logout successful');
+                  Navigator.pushNamed(context, '/');
+                } else {
+                  // Handle logout error
+                  print('Logout failed: ${response.body}');
+                }
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            Text('My App'),
+            Text(AppLocalizations.of(context)!.helloWorld),
             if (userEmail != null) ...[
               SizedBox(width: 8),
               Text(
@@ -168,12 +221,22 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/order-history');
               } else if (value == 'products') {
                 Navigator.pushNamed(context, '/account-product');
+              } else if (value == 'providerchat') {
+                Navigator.pushNamed(context, '/provider/chat');
+              } else if (value == 'logout') {
+                logout();
               }
             },
             itemBuilder: (BuildContext context) {
-              return {'Login', 'Add Product', 'Cart', 'Order', 'Products'}.map((
-                String choice,
-              ) {
+              String loginOrOut = userEmail != null ? 'Logout' : 'Login';
+              return {
+                loginOrOut,
+                'Add Product',
+                'Cart',
+                'Order',
+                'Products',
+                'ProviderChat',
+              }.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice.toLowerCase(),
                   child: Text(choice),

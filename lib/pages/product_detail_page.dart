@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import './chat_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final String productId;
@@ -212,7 +213,33 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
             ),
-            // Chat section can be added here
+            // Add Chat Section
+            SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => ChatPage(
+                            peerEmail: product!['providerEmail'],
+                            myEmail:
+                                '', // Will be set in ChatPage using SharedPreferences
+                          ),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.message),
+                label: Text('Message Provider'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Colors.blueGrey,
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
           ],
         ),
       ),
