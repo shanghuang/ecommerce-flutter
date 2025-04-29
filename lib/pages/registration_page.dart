@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -34,11 +35,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
         // Navigate back to login page after successful registration
         Navigator.pop(context);
       } else {
-        throw Exception('Failed to register');
+        throw Exception(AppLocalizations.of(context)!.failedToRegister);
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed: ${e.toString()}')),
+        SnackBar(
+          content: Text(
+            '${AppLocalizations.of(context)!.registrationFailed}: ${e.toString()}',
+          ),
+        ),
       );
     } finally {
       setState(() => _isLoading = false);
@@ -48,7 +53,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registration')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.registration)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -57,31 +62,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.name,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return AppLocalizations.of(context)!.pleaseEnterYourName;
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return '${AppLocalizations.of(context)!.pleaseEnterYour} ${AppLocalizations.of(context)!.email}';
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.password,
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return '${AppLocalizations.of(context)!.pleaseEnterYour} ${AppLocalizations.of(context)!.password}';
                   }
                   return null;
                 },
@@ -91,11 +102,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                     onPressed: _register,
-                    child: Text('Register'),
+                    child: Text(AppLocalizations.of(context)!.register),
                   ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Already have an account? Login'),
+                child: Text(
+                  AppLocalizations.of(context)!.alreadyHaveAnAccountLogin,
+                ),
               ),
             ],
           ),

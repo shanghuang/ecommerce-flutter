@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './chat_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -114,27 +115,35 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Product Details')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.productDetails),
+        ),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (error.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Product Details')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.productDetails),
+        ),
         body: Center(child: Text(error, style: TextStyle(color: Colors.red))),
       );
     }
 
     if (product == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('Product Details')),
-        body: Center(child: Text('Product not found')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.productDetails),
+        ),
+        body: Center(
+          child: Text(AppLocalizations.of(context)!.productNotFound),
+        ),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Product Details')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.productDetails)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -153,13 +162,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            /*if (product!['imageUrl'] != null)
+            if (product!['imageUrl'] != null)
               Image.network(
                 product!['imageUrl'],
                 width: double.infinity,
                 height: 300,
                 fit: BoxFit.cover,
-              ),*/
+              ),
             SizedBox(height: 16),
             Text(
               product!['name'],
@@ -168,7 +177,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             SizedBox(height: 8),
             if (product!['category'] != null)
               Text(
-                'Category: ${product!['category']['name']}',
+                '${AppLocalizations.of(context)!.category}: ${product!['category']['name']}',
                 style: TextStyle(color: Colors.grey[600]),
               ),
             SizedBox(height: 16),
@@ -182,17 +191,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             SizedBox(height: 16),
             Text(
-              'Description',
+              AppLocalizations.of(context)!.description,
               style: Theme.of(context).textTheme.headlineMedium, //.headline6,
             ),
             SizedBox(height: 8),
             Text(
-              product!['description'] ?? 'No description available',
+              product!['description'] ??
+                  AppLocalizations.of(context)!.noDescriptionAvailable,
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),
             Text(
-              'Additional Information',
+              AppLocalizations.of(context)!.additionalInformation,
               style: Theme.of(context).textTheme.headlineMedium, //.headline6,
             ),
             SizedBox(height: 8),
@@ -207,7 +217,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child:
                     isAddingToCart
                         ? CircularProgressIndicator(color: Colors.white)
-                        : Text('Add to Cart'),
+                        : Text(AppLocalizations.of(context)!.addToCart),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
@@ -232,7 +242,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   );
                 },
                 icon: Icon(Icons.message),
-                label: Text('Message Provider'),
+                label: Text(AppLocalizations.of(context)!.messageProvider),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: Colors.blueGrey,

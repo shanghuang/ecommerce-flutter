@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   final String orderId;
@@ -57,27 +58,35 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Order Confirmation')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.orderConfirmation),
+        ),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (error.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Order Confirmation')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.orderConfirmation),
+        ),
         body: Center(child: Text(error, style: TextStyle(color: Colors.red))),
       );
     }
 
     if (order == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('Order Confirmation')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.orderConfirmation),
+        ),
         body: Center(child: Text('Order not found')),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Order Confirmation')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.orderConfirmation),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -91,7 +100,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                'Thank you! Your order #${order!['id']} has been successfully placed.',
+                '${AppLocalizations.of(context)!.thankYouYourOrder} #${order!['id']} ${AppLocalizations.of(context)!.hasBeenSuccessfullyPlaced}.',
                 style: TextStyle(color: Colors.green[700], fontSize: 16),
               ),
             ),
@@ -111,13 +120,15 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      Text('Order Status: ${order!['status']}'),
                       Text(
-                        'Order Total: \$${order!['total'].toStringAsFixed(2)}',
+                        '${AppLocalizations.of(context)!.orderStatus}: ${order!['status']}',
+                      ),
+                      Text(
+                        '${AppLocalizations.of(context)!.orderTotal}: \$${order!['total'].toStringAsFixed(2)}',
                       ),
                       SizedBox(height: 16),
                       Text(
-                        'Items Ordered',
+                        AppLocalizations.of(context)!.itemsOrdered,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -153,7 +164,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Shipping Information',
+                        AppLocalizations.of(context)!.shippingInformation,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

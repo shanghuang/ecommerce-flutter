@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatPage extends StatefulWidget {
   final String peerEmail;
@@ -169,7 +170,11 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.peerEmail}')),
+      appBar: AppBar(
+        title: Text(
+          '${AppLocalizations.of(context)!.chatWith} ${widget.peerEmail}',
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -235,7 +240,8 @@ class _ChatPageState extends State<ChatPage> {
                   child: TextField(
                     controller: _messageController,
                     decoration: InputDecoration(
-                      hintText: 'Type a message...',
+                      hintText:
+                          '${AppLocalizations.of(context)!.typeAMessage}...',
                       border: OutlineInputBorder(),
                     ),
                     onSubmitted: (value) {

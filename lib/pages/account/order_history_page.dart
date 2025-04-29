@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderHistoryPage extends StatefulWidget {
   @override
@@ -65,20 +66,20 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Order History')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.orderHistory)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (error.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Order History')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.orderHistory)),
         body: Center(child: Text(error, style: TextStyle(color: Colors.red))),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Order History')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.orderHistory)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child:
@@ -88,7 +89,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "You haven't placed any orders yet.",
+                        AppLocalizations.of(
+                          context,
+                        )!.youHaventPlacedAnyOrdersYet,
                         style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                       SizedBox(height: 16),
@@ -96,7 +99,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/products');
                         },
-                        child: Text('Browse Products'),
+                        child: Text(
+                          AppLocalizations.of(context)!.browseProducts,
+                        ),
                       ),
                     ],
                   ),
@@ -122,7 +127,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Order #${order['id']}',
+                                        '${AppLocalizations.of(context)!.order} #${order['id']}',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -181,7 +186,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                             ),
                             Divider(height: 24),
                             Text(
-                              'Items:',
+                              '${AppLocalizations.of(context)!.items}:',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -220,7 +225,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                     '/order-confirmation/${order['id']}',
                                   );
                                 },
-                                child: Text('View Details →'),
+                                child: Text('@{AppLocalizations.of(context)!.viewDetails} →'),
                               ),
                             ),
                           ],

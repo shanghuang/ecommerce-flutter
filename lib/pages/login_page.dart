@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './registration_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,9 +47,13 @@ class _LoginPageState extends State<LoginPage> {
         throw Exception('Failed to login');
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Login failed: ${e.toString()}')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppLocalizations.of(context)!.loginFailed}: ${e.toString()}',
+          ),
+        ),
+      );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -57,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.login)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -67,19 +72,19 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: AppLocalizations.of(context)!.email,
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return '${AppLocalizations.of(context)!.pleaseEnterYour} ${AppLocalizations.of(context)!.email}';
                   }
                   if (!RegExp(
                     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                   ).hasMatch(value)) {
-                    return 'Please enter a valid email address';
+                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.aValidEmailAddress}';
                   }
                   return null;
                 },
@@ -88,17 +93,21 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: AppLocalizations.of(context)!.password,
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return AppLocalizations.of(
+                      context,
+                    )!.pleaseEnterYourPassword;
                   }
                   if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
+                    return AppLocalizations.of(
+                      context,
+                    )!.passwordMustBeAtLeast6Characters;
                   }
                   return null;
                 },
@@ -106,7 +115,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               _isLoading
                   ? CircularProgressIndicator()
-                  : ElevatedButton(onPressed: _login, child: Text('Login')),
+                  : ElevatedButton(
+                    onPressed: _login,
+                    child: Text(AppLocalizations.of(context)!.login),
+                  ),
               TextButton(
                 onPressed:
                     () => Navigator.push(
@@ -115,7 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) => RegistrationPage(),
                       ),
                     ),
-                child: Text('Don\'t have an account? Register'),
+                child: Text(
+                  AppLocalizations.of(context)!.dontHaveAnAccountRegister,
+                ),
               ),
             ],
           ),

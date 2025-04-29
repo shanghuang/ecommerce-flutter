@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -131,7 +132,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Your Cart')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.yourCart)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -144,13 +145,13 @@ class _CartPageState extends State<CartPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Your Cart')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.yourCart)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (cartItems.isEmpty)
-              Center(child: Text('Your cart is empty'))
+              Center(child: Text(AppLocalizations.of(context)!.yourCartIsEmpty))
             else ...[
               Expanded(
                 child: ListView.builder(
@@ -205,7 +206,7 @@ class _CartPageState extends State<CartPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total:',
+                      '${AppLocalizations.of(context)!.total}:',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -229,7 +230,7 @@ class _CartPageState extends State<CartPage> {
                     // Navigate to checkout page
                     Navigator.pushNamed(context, '/checkout');
                   },
-                  child: Text('Proceed to Checkout'),
+                  child: Text(AppLocalizations.of(context)!.proceedToCheckout),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -240,7 +241,7 @@ class _CartPageState extends State<CartPage> {
               onPressed: () {
                 Navigator.pushNamed(context, '/products');
               },
-              child: Text('Continue Shopping'),
+              child: Text(AppLocalizations.of(context)!.continueShopping),
             ),
           ],
         ),

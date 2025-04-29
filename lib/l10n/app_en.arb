@@ -4,5 +4,363 @@
     "helloWorld": "Hello World!",
     "@helloWorld": {
       "description": "The conventional newborn programmer greeting"
+    },
+
+    "logout": "Logout",
+    "@logout": {
+      "description": "Logout button text"
+    },
+    "yes": "Yes",
+    "@yes": {
+      "description": "Yes button text"
+    },
+    "no": "No",
+    "@no": {
+      "description": "No button text"
+    },
+    "error": "Error",
+    "@error": {
+      "description": "Error message"
+    },
+    "noFeaturedProductsAvailable": "No featured products available",
+    "@noFeaturedProductsAvailable": {
+      "description": "Message when there are no featured products"
+    },
+    "yourProducts": "Your Products",
+    "@yourProducts": {
+      "description": "Title for the products page"
+    },
+
+    "noProductsFound": "No products found.",
+    "@noProductsFound": {
+      "description": "Message when no products are found"
+    },
+    "orderHistory": "Order History",
+    "@orderHistory": {
+      "description": "Title for the order history page"
+    },
+    "youHaventPlacedAnyOrdersYet": "You haven't placed any orders yet.",
+    "@youHaventPlacedAnyOrdersYet": {
+      "description": "Message when there are no orders"
+    },
+
+    "browseProducts": "Browse Products",
+    "@browseProducts": {
+      "description": "Button text to browse products"
+    },
+
+    "order":  "Order ",
+    "@order": {
+      "description": "Order number"
+    },
+    "items": "Items",
+    "@items": {
+      "description": "Number of items in the order"
+    },
+    "viewDetails": "View Details", 
+    "@viewDetails": {
+      "description": "Button text to view order details"
+    },
+
+    "addNewProduct": "Add New Product", 
+    "@addNewProduct": {
+      "description": "Button text to add a new product"
+    },
+    "productName": "Product Name", 
+    "@productName": {
+      "description": "Label for product name input"
+    },
+    "description": "Description",
+    "@description": {
+      "description": "Label for product description input"
+    },
+    "price": "Price",
+    "@price": {
+      "description": "Label for product price input"
+    },
+    "imageURL": "Image URL",
+    "@imageURL": {
+      "description": "Label for product image URL input"
+    },
+    "categoryIDoptional": "Category ID (optional)",
+    "@categoryIDoptional": {
+      "description": "Label for optional category ID input"
+    },
+    "createProduct": "Create Product",
+    "@createProduct": {
+      "description": "Button text to create a new product"
+    },
+
+    "yourCart": "Your Cart",
+    "@yourCart": {
+      "description": "Title for the shopping cart page"
+    },
+    "yourCartIsEmpty": "Your cart is empty",
+    "@yourCartIsEmpty": {
+      "description": "Message when the shopping cart is empty"
+    },
+    "total": "Total",
+    "@total": {
+      "description": "Label for total amount"
+    },
+    "proceedToCheckout": "Proceed to Checkout",
+    "@proceedToCheckout": {
+      "description": "Button text to proceed to checkout"
+    },
+    "continueShopping": "Continue Shopping",
+    "@continueShopping": {
+      "description": "Button text to continue shopping"
+    },
+
+    "chatWith": "Chat with",
+    "@chatWith": {
+      "description": "Label for chat with customer service"
+    },
+    "typeAMessage": "Type a message",
+    "@typeAMessage": {
+      "description": "Placeholder text for message input"
+    },
+
+    "checkout": "Checkout",
+    "@checkout": {
+      "description": "Button text to checkout"
+    },
+    "shippingInformation": "Shipping Information",
+    "@shippingInformation": {
+      "description": "Label for shipping information"
+    },
+    "fullName": "Full Name",
+    "@fullName": {
+      "description": "Label for full name input"
+    },
+    "address": "Address",
+    "@address": {
+      "description": "Label for address input"
+    },
+    "addressLine2Optional": "Address Line 2 (Optional)",
+    "@addressLine2Optional": {
+      "description": "Label for optional address line 2 input"
+    },
+    "city": "City",
+    "@city": {
+      "description": "Label for city input"
+    },
+    "pleaseEnterYourCity": "Please enter your city",
+    "@pleaseEnterYourCity": {
+      "description": "Error message for missing city input"
+    },
+    "stateProvince": "State/Province",
+    "@stateProvince": {
+      "description": "Label for state/province input"
+    },
+    "zIPPostalCode": "ZIP/Postal Code",
+    "@zIPPostalCode": {
+      "description": "Label for ZIP/postal code input"
+    },
+    "pleaseEnterYourZIPCode": "Please enter your ZIP code",
+    "@pleaseEnterYourZIPCode": {
+      "description": "Error message for missing ZIP code input"
+    },
+    "country": "Country",
+    "@country": {
+      "description": "Label for country input"
+    },
+    "phoneNumber": "Phone Number",
+    "@phoneNumber": {
+      "description": "Label for phone number input"
+    },
+    "pleaseEnterYourPhoneNumber": "Please enter your phone number",
+    "@pleaseEnterYourPhoneNumber": {
+      "description": "Error message for missing phone number input"
+    },
+    "cardNumber": "Card Number",
+    "@cardNumber": {
+      "description": "Label for card number input"
+    },
+    
+    "pleaseEnterYour":"Please enter your",
+    "@pleaseEnterYour": {
+      "description": "Error message for missing input"
+    },
+    "pleaseEnter":"Please enter",
+    "@pleaseEnter": {
+      "description": "Error message for missing input"
+    },
+    "expirationDate": "Expiration Date",
+    "@expirationDate": {
+      "description": "Label for expiration date input"
+    },
+    "cardholderName": "Cardholder Name",
+    "@cardholderName": {
+      "description": "Label for cardholder name input"
+    },
+    "billingZIPCode": "Billing ZIP Code",
+    "@billingZIPCode": {
+      "description": "Label for billing ZIP code input"
+    },
+    "orderSummary": "Order Summary",
+    "@orderSummary": {
+      "description": "Label for order summary"
+    },
+    "placeOrder": "Place Order",
+    "@placeOrder": {
+      "description": "Button text to place the order"
+    },
+
+    "loginFailed": "Login failed",
+    "@loginFailed": {
+      "description": "Message displayed when login fails"
+    },
+    "login": "Login",
+    "@login": {
+      "description": "Login button text"
+    },
+    "email": "Email",
+    "@email": {
+      "description": "Label for email input"
+    },
+    "aValidEmailAddress": "a valid email address",
+    "@aValidEmailAddress": {
+      "description": "Error message for invalid email address"
+    },
+    "password": "Password",
+    "@password": {
+      "description": "Label for password input"
+    },
+    "pleaseEnterYourPassword": "Please enter your password",
+    "@pleaseEnterYourPassword": {
+      "description": "Error message for missing password input"
+    },
+    "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+    "@passwordMustBeAtLeast6Characters": {
+      "description": "Error message for short password"
+    },
+    "dontHaveAnAccountRegister": "Don't have an account? Register",
+    "@dontHaveAnAccountRegister": {
+      "description": "Text for registration link"
+    },
+
+    "orderConfirmation": "Order Confirmation",
+    "@orderConfirmation": {
+      "description": "Title for order confirmation page"
+    },
+    "orderNotFound": "Order not found",
+    "@orderNotFound": {
+      "description": "Message when order is not found"
+    },
+    "thankYouYourOrder": "Thank you! Your order",
+    "@thankYouYourOrder": {
+      "description": "Message thanking the user for their order"
+    },
+    "hasBeenSuccessfullyPlaced": "has been successfully placed",
+    "@hasBeenSuccessfullyPlaced": {
+      "description": "Message confirming successful order placement"
+    },
+    "orderStatus": "Order Status",
+    "@orderStatus": {
+      "description": "Label for order status"
+    },
+    "orderTotal": "Order Total",
+    "@orderTotal": {
+      "description": "Label for order total"
+    },
+    "itemsOrdered": "Items Ordered",
+    "@itemsOrdered": {
+      "description": "Label for items ordered"
+    },
+
+
+    "productDetails": "Product Details",
+    "@productDetails": {
+      "description": "Label for product details"
+    },
+    "productNotFound": "Product not found",
+    "@productNotFound": {
+      "description": "Message when product is not found"
+    },
+    "category": "Category",
+    "@category": {
+      "description": "Label for product category"
+    },
+
+    "noDescriptionAvailable": "No description available",
+    "@noDescriptionAvailable": {
+      "description": "Message when no description is available"
+    },
+    "additionalInformation": "Additional Information",
+    "@additionalInformation": {
+      "description": "Label for additional information"
+    },
+    "addToCart": "Add to Cart",
+    "@addToCart": {
+      "description": "Button text to add product to cart"
+    },
+    "messageProvider": "Message Provider",
+    "@messageProvider": {
+      "description": "Label for message provider"
+    },
+    "buyers": "Buyers",
+    "@buyers": {
+      "description": "Label for buyers"
+    },
+
+    "selectABuyer": "Select a buyer",
+    "@selectABuyer": {
+      "description": "Label for selecting a buyer"
+    },
+
+
+    "failedToRegister": "Failed to register",
+    "@failedToRegister": {
+      "description": "Message displayed when registration fails"
+    },
+    "registrationFailed": "Registration failed",
+    "@registrationFailed": {
+      "description": "Message displayed when registration fails"
+    },
+    "registration": "Registration",
+    "@registration": {
+      "description": "Title for registration page"
+    },
+    "name": "Name",
+    "@name": {
+      "description": "Label for name input"
+    },
+    "pleaseEnterYourName": "Please enter your name",
+    "@pleaseEnterYourName": {
+      "description": "Error message for missing name input"
+    },
+    "alreadyHaveAnAccountLogin": "Already have an account? Login",
+    "@alreadyHaveAnAccountLogin": {
+      "description": "Text for login link"
+    },
+
+    "register": "Register",
+    "@register": {
+      "description": "Button text to register"
+    },
+
+    "addProduct": "Add Product",
+    "@addProduct": {
+      "description": "Button text to add a product"
+    },
+
+    "cart": "Cart",
+    "@cart": {
+      "description": "Label for shopping cart"
+    },
+
+    "accountProducts": "Account Products",
+    "@accountProducts": {
+      "description": "Label for account products"
+    },
+
+    "orderHistory": "Order History",
+    "@orderHistory": {
+      "description": "Label for order history"
+    },
+    "providerChat": "Provider Chat",
+    "@providerChat": {
+      "description": "Label for provider chat"
     }
-  }
+}

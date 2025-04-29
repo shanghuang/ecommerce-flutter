@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountProductsPage extends StatefulWidget {
   @override
@@ -54,20 +55,20 @@ class _AccountProductsPageState extends State<AccountProductsPage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Your Products')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.yourProducts)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (error.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Your Products')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.yourProducts)),
         body: Center(child: Text(error, style: TextStyle(color: Colors.red))),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Your Products')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.yourProducts)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -80,11 +81,13 @@ class _AccountProductsPageState extends State<AccountProductsPage> {
                   '/add-product' /*'/products/add'*/,
                 );
               },
-              child: Text('Add New Product'),
+              child: Text(AppLocalizations.of(context)!.addNewProduct),
             ),
             SizedBox(height: 16),
             products.isEmpty
-                ? Center(child: Text('No products found.'))
+                ? Center(
+                  child: Text(AppLocalizations.of(context)!.noProductsFound),
+                )
                 : Expanded(
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

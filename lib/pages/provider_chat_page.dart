@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProviderChatPage extends StatefulWidget {
   @override
@@ -234,7 +235,7 @@ class _ProviderChatPageState extends State<ProviderChatPage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Buyers',
+                    AppLocalizations.of(context)!.buyers,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -271,8 +272,8 @@ class _ProviderChatPageState extends State<ProviderChatPage> {
                 AppBar(
                   title: Text(
                     selectedBuyer != null
-                        ? 'Chat with $selectedBuyer'
-                        : 'Select a buyer',
+                        ? '${AppLocalizations.of(context)!.chatWith} $selectedBuyer'
+                        : AppLocalizations.of(context)!.selectABuyer,
                   ),
                 ),
                 Expanded(
@@ -340,7 +341,8 @@ class _ProviderChatPageState extends State<ProviderChatPage> {
                             controller: _messageController, // Add
 
                             decoration: InputDecoration(
-                              hintText: 'Type a message...',
+                              hintText:
+                                  '${AppLocalizations.of(context)!.typeAMessage}...',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(24.0),
                               ),

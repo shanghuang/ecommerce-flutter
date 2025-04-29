@@ -62,11 +62,11 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/registration': (context) => RegistrationPage(),
-        '/add-product': (context) => AddProductPage(),
+        '/addProduct': (context) => AddProductPage(),
         '/cart': (context) => CartPage(),
         '/checkout': (context) => CheckoutPage(),
-        '/order-history': (context) => OrderHistoryPage(),
-        '/account-product': (context) => AccountProductsPage(),
+        '/orderHistory': (context) => OrderHistoryPage(),
+        '/accountProducts': (context) => AccountProductsPage(),
         '/provider/chat': (context) => ChatListPage(),
         '/products':
             (context) => ProductDetailPage(
@@ -156,18 +156,20 @@ class _HomePageState extends State<HomePage> {
 
   void logout() async {
     showDialog(
-        context: context,
-        builder: (BuildContext context)
-    {
-      return
-        AlertDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
           title: const Text('Logout ?'),
-          content: const SingleChildScrollView(
-            child: ListBody(children: <Widget>[Text('Logout ?')]),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('${AppLocalizations.of(context)!.logout} ?'),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Yes'),
+              child: Text(AppLocalizations.of(context)!.yes),
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
                 final token = prefs.getString('jwt_token');
@@ -189,11 +191,42 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         );
-    });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> menuItems = {
+      if (userEmail != null)
+        "logout": {
+          "value": AppLocalizations.of(context)!.logout,
+          "path": "/logout",
+        }
+      else
+        "login": {
+          "value": AppLocalizations.of(context)!.login,
+          "path": "/login",
+        },
+      "addProduct": {
+        "value": AppLocalizations.of(context)!.addProduct,
+        "path": "/addProduct",
+      },
+      "cart": {"value": AppLocalizations.of(context)!.cart, "path": "/cart"},
+      "orderHistory": {
+        "value": AppLocalizations.of(context)!.orderHistory,
+        "path": "/orderHistory",
+      },
+      "accountProducts": {
+        "value": AppLocalizations.of(context)!.accountProducts,
+        "path": "/accountProducts",
+      },
+      "providerChat": {
+        "value": AppLocalizations.of(context)!.providerChat,
+        "path": "/provider/chat",
+      },
+    };
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -211,24 +244,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-              if (value == 'login') {
-                Navigator.pushNamed(context, '/login');
-              } else if (value == 'add product') {
-                Navigator.pushNamed(context, '/add-product');
-              } else if (value == 'cart') {
-                Navigator.pushNamed(context, '/cart');
-              } else if (value == 'order') {
-                Navigator.pushNamed(context, '/order-history');
-              } else if (value == 'products') {
-                Navigator.pushNamed(context, '/account-product');
-              } else if (value == 'providerchat') {
-                Navigator.pushNamed(context, '/provider/chat');
-              } else if (value == 'logout') {
+              if (value == 'logout') {
                 logout();
+              } else {
+                Navigator.pushNamed(context, menuItems[value]['path']);
               }
             },
             itemBuilder: (BuildContext context) {
-              String loginOrOut = userEmail != null ? 'Logout' : 'Login';
+              /*String loginOrOut = userEmail != null ? 'Logout' : 'Login';
               return {
                 loginOrOut,
                 'Add Product',
@@ -241,6 +264,15 @@ class _HomePageState extends State<HomePage> {
                   value: choice.toLowerCase(),
                   child: Text(choice),
                 );
+              }).toList();*/
+              return menuItems.entries.map((entry) {
+                return PopupMenuItem<String>(
+                  value: entry.key,
+                  child: Text(
+                    entry
+                        .value['value'], //AppLocalizations.of(context)!.translate(item['title']),
+                  ),
+                );
               }).toList();
             },
           ),
@@ -250,9 +282,15 @@ class _HomePageState extends State<HomePage> {
           isLoading
               ? Center(child: CircularProgressIndicator())
               : error.isNotEmpty
-              ? Center(child: Text('Error: $error'))
+              ? Center(
+                child: Text('${AppLocalizations.of(context)!.error}: $error'),
+              )
               : featuredProducts.isEmpty
-              ? Center(child: Text('No featured products available'))
+              ? Center(
+                child: Text(
+                  AppLocalizations.of(context)!.noFeaturedProductsAvailable,
+                ),
+              )
               : ListView.builder(
                 padding: const EdgeInsets.all(16.0),
                 itemCount: featuredProducts.length,
@@ -262,8 +300,7 @@ class _HomePageState extends State<HomePage> {
                     margin: const EdgeInsets.only(bottom: 16.0),
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16.0),
-                      //todo:
-                      /*leading:
+                      leading:
                           product['imageUrl'] != null
                               ? Image.network(
                                 product['imageUrl'],
@@ -271,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 60,
                                 fit: BoxFit.cover,
                               )
-                              : Icon(Icons.shopping_bag, size: 60),*/
+                              : Icon(Icons.shopping_bag, size: 60),
                       title: Text(product['name']),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +335,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-              ),
+              ), //ListView.builder
+      //body:isLoading
     );
   }
 }

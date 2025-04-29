@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -127,7 +128,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Checkout')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.checkout)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -147,12 +148,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   child: Text(error, style: TextStyle(color: Colors.red[700])),
                 ),
               Text(
-                'Shipping Information',
+                AppLocalizations.of(context)!.shippingInformation,
                 style: Theme.of(context).textTheme.headlineMedium, //headline6,
               ),
               SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Full Name'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.fullName,
+                ),
                 onChanged: (value) => _shippingInfo['fullName'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -163,7 +166,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
               SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Address'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.address,
+                ),
                 onChanged: (value) => _shippingInfo['address'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -175,7 +180,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               SizedBox(height: 8),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Address Line 2 (Optional)',
+                  labelText: AppLocalizations.of(context)!.addressLine2Optional,
                 ),
                 onChanged: (value) => _shippingInfo['address2'] = value,
               ),
@@ -184,11 +189,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'City'),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.city,
+                      ),
                       onChanged: (value) => _shippingInfo['city'] = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your city';
+                          return AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterYourCity;
                         }
                         return null;
                       },
@@ -197,7 +206,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(width: 8),
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'State/Province'),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.stateProvince,
+                      ),
                       onChanged: (value) => _shippingInfo['state'] = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -214,11 +225,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'ZIP/Postal Code'),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.zIPPostalCode,
+                      ),
                       onChanged: (value) => _shippingInfo['zip'] = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your ZIP code';
+                          return AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterYourZIPCode;
                         }
                         return null;
                       },
@@ -228,7 +243,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: _shippingInfo['country'],
-                      decoration: InputDecoration(labelText: 'Country'),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.country,
+                      ),
                       items:
                           ['United States', 'Canada', 'United Kingdom'].map((
                             String value,
@@ -249,12 +266,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
               SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Phone Number'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.phoneNumber,
+                ),
                 keyboardType: TextInputType.phone,
                 onChanged: (value) => _shippingInfo['phone'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
+                    return AppLocalizations.of(
+                      context,
+                    )!.pleaseEnterYourPhoneNumber;
                   }
                   return null;
                 },
@@ -266,12 +287,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
               SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Card Number'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.cardNumber,
+                ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) => _paymentInfo['cardNumber'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your card number';
+                    return '${AppLocalizations.of(context)!.pleaseEnterYour} ${AppLocalizations.of(context)!.cardNumber}';
                   }
                   return null;
                 },
@@ -281,11 +304,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Expiration Date'),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.expirationDate,
+                      ),
                       onChanged: (value) => _paymentInfo['expiration'] = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter expiration date';
+                          return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.expirationDate}';
                         }
                         return null;
                       },
@@ -299,7 +324,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       onChanged: (value) => _paymentInfo['cvv'] = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter CVV';
+                          return '${AppLocalizations.of(context)!.pleaseEnter} CVV';
                         }
                         return null;
                       },
@@ -309,30 +334,34 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
               SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Cardholder Name'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.cardholderName,
+                ),
                 onChanged: (value) => _paymentInfo['cardHolderName'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter cardholder name';
+                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.cardholderName}';
                   }
                   return null;
                 },
               ),
               SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Billing ZIP Code'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.billingZIPCode,
+                ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) => _paymentInfo['billingZip'] = value,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter billing ZIP code';
+                    return '${AppLocalizations.of(context)!.pleaseEnter} ${AppLocalizations.of(context)!.billingZIPCode}';
                   }
                   return null;
                 },
               ),
               SizedBox(height: 24),
               Text(
-                'Order Summary',
+                AppLocalizations.of(context)!.orderSummary,
                 style:
                     Theme.of(context).textTheme.headlineMedium, // .headline6,
               ),
@@ -351,7 +380,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Total',
+                          AppLocalizations.of(context)!.total,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -377,7 +406,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   child:
                       isProcessing
                           ? CircularProgressIndicator(color: Colors.white)
-                          : Text('Place Order'),
+                          : Text(AppLocalizations.of(context)!.placeOrder),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddProductPage extends StatefulWidget {
   @override
@@ -18,7 +21,74 @@ class _AddProductPageState extends State<AddProductPage> {
 
   bool _isSubmitting = false;
   String _error = '';
+  File? _imageFile;
+  String? _uploadedImageUrl;
 
+  // Add this method for image picking
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Add this method for image upload
+  Future<void> _uploadImage() async {
+    if (_imageFile == null) return;
+
+    setState(() {
+      _isSubmitting = true;
+      _error = '';
+    });
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('jwt_token');
+
+      if (token == null) {
+        throw Exception('Not authenticated');
+      }
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          'http://192.168.1.77:3000/api/upload',
+        ), // Your upload endpoint
+      );
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.files.add(
+        await http.MultipartFile.fromPath('file', _imageFile!.path),
+      );
+
+      final response = await request.send();
+      final responseData = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(responseData);
+        setState(() {
+          _uploadedImageUrl = data['url'];
+        });
+      } else {
+        throw Exception('Failed to upload image');
+      }
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+      throw e; // Re-throw to stop the product submission
+    } finally {
+      setState(() {
+        _isSubmitting = false;
+      });
+    }
+  }
+
+  // Modify the _submitProduct method
   Future<void> _submitProduct() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -28,6 +98,11 @@ class _AddProductPageState extends State<AddProductPage> {
     });
 
     try {
+      // Upload image first if selected
+      if (_imageFile != null) {
+        await _uploadImage();
+      }
+
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('jwt_token');
       final providerEmail = prefs.getString('email');
@@ -46,7 +121,7 @@ class _AddProductPageState extends State<AddProductPage> {
           'name': _nameController.text,
           'description': _descriptionController.text,
           'price': double.parse(_priceController.text),
-          'imageUrl': _imageUrlController.text,
+          'imageUrl': _uploadedImageUrl ?? _imageUrlController.text,
           'categoryId': _categoryIdController.text,
           'providerEmail': providerEmail,
         }),
@@ -76,7 +151,7 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add New Product')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.addNewProduct)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -98,7 +173,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: 'Product Name',
+                  labelText: AppLocalizations.of(context)!.productName,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -112,7 +187,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Description',
+                  labelText: AppLocalizations.of(context)!.description,
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 4,
@@ -127,7 +202,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextFormField(
                 controller: _priceController,
                 decoration: InputDecoration(
-                  labelText: 'Price',
+                  labelText: AppLocalizations.of(context)!.price,
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -142,19 +217,39 @@ class _AddProductPageState extends State<AddProductPage> {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                controller: _imageUrlController,
-                decoration: InputDecoration(
-                  labelText: 'Image URL',
-                  border: OutlineInputBorder(),
+              if (_imageFile != null)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Image.file(
+                    _imageFile!,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                keyboardType: TextInputType.url,
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.photo_library),
+                      label: Text('Gallery'),
+                      onPressed: () => _pickImage(ImageSource.gallery),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.camera_alt),
+                      label: Text('Camera'),
+                      onPressed: () => _pickImage(ImageSource.camera),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: _categoryIdController,
                 decoration: InputDecoration(
-                  labelText: 'Category ID (optional)',
+                  labelText: AppLocalizations.of(context)!.categoryIDoptional,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -164,7 +259,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 child:
                     _isSubmitting
                         ? CircularProgressIndicator(color: Colors.white)
-                        : Text('Create Product'),
+                        : Text(AppLocalizations.of(context)!.createProduct),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
@@ -183,6 +278,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _priceController.dispose();
     _imageUrlController.dispose();
     _categoryIdController.dispose();
+    _imageFile = null;
     super.dispose();
   }
 }
