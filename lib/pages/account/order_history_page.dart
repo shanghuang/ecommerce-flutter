@@ -110,15 +110,36 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
                     final order = orders[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 16.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Row(
+                    // Add null checks for order and its properties
+                    final orderId = order['id']?.toString() ?? 'N/A';
+                    final createdAt =
+                        order['createdAt'] != null
+                            ? DateTime.parse(
+                              order['createdAt'],
+                            ).toLocal().toString()
+                            : 'N/A';
+                    final total = order['total']?.toStringAsFixed(2) ?? '0.00';
+                    final status = order['status']?.toString() ?? 'Unknown';
+                    final items = order['items'] as List? ?? [];
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/order-confirmation', // Use your actual route name
+                          arguments:
+                              orderId, // Pass the entire order object if needed
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Remove Flexible widget
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -127,17 +148,15 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${AppLocalizations.of(context)!.order} #${order['id']}',
+                                        '${AppLocalizations.of(context)!.order} #$orderId',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       SizedBox(height: 4),
                                       Text(
-                                        DateTime.parse(
-                                          order['createdAt'],
-                                        ).toLocal().toString(),
+                                        createdAt,
                                         style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 14,
@@ -149,7 +168,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        '\$${order['total'].toStringAsFixed(2)}',
+                                        '\$$total',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -163,18 +182,16 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                         ),
                                         decoration: BoxDecoration(
                                           color: _getStatusColor(
-                                            order['status'],
+                                            status,
                                           ).withOpacity(0.2),
                                           borderRadius: BorderRadius.circular(
                                             12,
                                           ),
                                         ),
                                         child: Text(
-                                          order['status'],
+                                          status,
                                           style: TextStyle(
-                                            color: _getStatusColor(
-                                              order['status'],
-                                            ),
+                                            color: _getStatusColor(status),
                                             fontSize: 14,
                                           ),
                                         ),
@@ -183,52 +200,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                                   ),
                                 ],
                               ),
-                            ),
-                            Divider(height: 24),
-                            Text(
-                              '${AppLocalizations.of(context)!.items}:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Column(
-                              children:
-                                  (order['items'] as List).map((item) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 4.0,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${item['name']} (x${item['quantity']})',
-                                          ),
-                                          Text(
-                                            '\$${(item['price'] * item['quantity']).toStringAsFixed(2)}',
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                            ),
-                            SizedBox(height: 16),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/order-confirmation/${order['id']}',
-                                  );
-                                },
-                                child: Text('@{AppLocalizations.of(context)!.viewDetails} →'),
-                              ),
-                            ),
-                          ],
+                              // ... rest of the existing code ...
+                            ],
+                          ),
                         ),
                       ),
                     );
